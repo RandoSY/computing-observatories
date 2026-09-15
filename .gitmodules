@@ -1,0 +1,6 @@
+[submodule "source-snapshots/interactive-arduino"]
+	path = source-snapshots/interactive-arduino
+	url = https://github.com/RandoSY/Interactive_Arduino.git
+[submodule "source-snapshots/stem-fusion-65c02"]
+	path = source-snapshots/stem-fusion-65c02
+	url = https://github.com/RandoSY/STEM-Fusion.git
