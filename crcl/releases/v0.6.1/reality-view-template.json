@@ -1,0 +1,24 @@
+{
+  "schema": "crcl-reality-1",
+  "id": "my-reality",
+  "name": "My Reality View",
+  "renderer": "instruments",
+  "description": "A bolt-on Reality View. Generic renderers require no browser-core changes.",
+  "channels": [
+    {
+      "topic": "TEMP",
+      "label": "Temperature",
+      "unit": "°C",
+      "state": "temp"
+    },
+    {
+      "topic": "MY_VALUE",
+      "label": "My Value",
+      "unit": "units",
+      "state": "myValue"
+    }
+  ],
+  "preferredFor": [
+    "my-task"
+  ]
+}
