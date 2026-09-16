@@ -1,0 +1,1 @@
+aaa9746db05d7e63df55d92869ff14272285a4074862d453ff4628a2f769bd9a  /mnt/data/Forth_Observatory_MSP430G2553_v0.4.2.zip
