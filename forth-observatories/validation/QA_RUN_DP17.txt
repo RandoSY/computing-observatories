@@ -1,0 +1,51 @@
+=== DP17 Living Stack / compact programmer contracts ===
+PASS DP17 static/package contract: compact programmer surface, Living Stack truth labels/controls, shared common cores, fixed ports, qualified guest firmware unchanged
+PASS DP17 rendered UI: compact chrome, expanded Forth execution area, smart terminal sizing, Living Stack popup/history on all three targets
+PASS DP17 Living Stack: shared code identity, stack-effect inference, exact/sampled truth rule, semantic stepping controls
+PASS shared DP17 Workbench: identical JS/CSS; programmer surface; line gutter; examples; stack witness; image/project validation
+PASS shared DP17 Studio: programmer surface plus dockable Stack witness and independent terminal
+PASS shared Stack Lens interpretation: flags, ASCII, strings, XT, symbol, return, contextual pointer, double, change diff
+=== AVR / ATmega328P native Forth ===
+AVR core smoke/328eForth-instruction tests: PASS
+AVR Ting 328eForth dictionary/elevation profile tests: PASS
+PASS authentic Ting 328eForth boot+dictionary+SEE+interpreter
+image=328eForth_Ting_v2.20_ATmega328P_DP9_CORRECTED.hex size=32656 instructions=2300000 pc=3812
+DUP nfa=7330 codePc=399A SEE=NATIVE; PAD SEE=COLON/SRT
+serial-after-command=1 2 + . 3ok<CR><LF>
+ATmega328P resident SEE cold-boot test: PASS (image=328eForth_Ting_v2.20_ATmega328P_DP9_CORRECTED.hex SEE XT=06FA)
+ATmega328P DP9 corrected FLUSH cold-reboot persistence: PASS
+image=328eForth_Ting_v2.20_ATmega328P_DP9_CORRECTED.hex FLUSH_XT=069E FLUSH+_XT=06EE PERSIST42_XT=072C
+AVR 328eForth compile + FLUSH + execute test: PASS (image=328eForth_Ting_v2.20_ATmega328P_DP9_CORRECTED.hex SQUARE XT=072A)
+PASS DP9 image consistency: corrected HEX == Pico header == Browser image; pristine v2.20 unchanged
+corrected SHA256 2325bfc17e81408fa872fd3bd6b03e5c0df0db78bdfec12400233aefe2bfbb6e bytes 32656 dictionary head ['SEE', 'FLUSH+', 'FLUSH']
+PASS Browser SIM structural QA: 65 outer ids, 51 inner ids, 39 JS DOM references
+PASS DP17 accessibility chooser + semantic execution color + command-history contract
+PASS DP13 persistent shell-style Forth command history
+PASS DP13 AVR common Forth behavior contract: colon/call, cold persistence, variable, string, Ting temperature
+PASS browser AVR8 + authentic 328eForth + DP9 corrected FLUSH persistence + resident SEE + cold reboot + elevation
+Ting 328eForth v2.20 + DP9 corrected FLUSH/FLUSH+ + resident SEE instructions 550006 pc 3cc0
+prompt budgets: arith=200000 SEE=400000 base=150000 compile+FLUSH=350000
+SEE PAD  XT $7766  COLON/SRT
+$7766  DFFA  CALL -> $775C  HERE
+$7768  DC86  CALL -> $7076
+$776A  0040
+$776C  CEB8  JMP  -> $74DE  +
+PASS AVR Stack Lens semantic stack, XT, string, and diff behavior
+=== MSP430G2553 native Forth ===
+RP2040 Virtual LaunchPad desktop core tests: PASS
+Authentic 430eForth boot/interpreter test: PASS
+MehFET framing/handshake tests: PASS
+Virtual MSP430 JTAG/DAP semantic tests: PASS
+MSP430 authentic 430eForth SEE profile tests: PASS
+MSP430 resident SEE cold-boot test: PASS (SEE=D0AE)
+Observatory JS tests: PASS
+PASS DP13 MSP430 common Forth behavior contract: colon/call, cold persistence, variable, string, Ting temperature
+PASS MSP430 Stack Lens semantic stack, XT, string, and return-context behavior
+=== CH32V003 / RV003 native Forth ===
+PASS Browser SIM Ting compatibility: 22 commands
+instructions=1605000 tokens=206736 dictionary=187 badRead=0 badWrite=0
+PASS CH32V003 Stack Lens semantic stack, XT, string, and return-context behavior
+PASS DP13 CH32V003 common Forth behavior contract: colon/call, cold persistence, variable, string, Ting temperature
+PASS Pico emulator core Ting compatibility
+instructions=1540000 badRead=0 badWrite=0
+=== DP17 ALL QA PASS ===
