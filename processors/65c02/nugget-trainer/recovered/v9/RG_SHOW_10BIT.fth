@@ -1,0 +1,62 @@
+( R & G SHOW -- 10-bit ADC human-readable binary annunciator )
+( One sample is taken at the start. Bits are sent MSB first. )
+( GREEN + high tone = 1. RED + low tone = 0. )
+( A ready beep starts the sequence; a close double beep terminates it. )
+
+HEX
+FF DDRB!
+DECIMAL
+
+1 CONSTANT RED
+4 CONSTANT GREEN
+VARIABLE SAMPLE
+
+: DARK      0 ORB! ;
+: RED-ON    RED ORB! ;
+: GREEN-ON  GREEN ORB! ;
+
+: READY
+  DARK 880 TONE! BEEP-ON 220 MS BEEP-OFF
+  800 MS
+;
+
+: SEND-0
+  RED-ON 440 TONE! BEEP-ON 550 MS BEEP-OFF
+  550 MS DARK 150 MS
+;
+
+: SEND-1
+  GREEN-ON 1100 TONE! BEEP-ON 550 MS BEEP-OFF
+  550 MS DARK 150 MS
+;
+
+: SEND-BIT IF SEND-1 ELSE SEND-0 THEN ;
+
+: BIT9 SAMPLE @ 9 RSHIFT 1 AND SEND-BIT ;
+: BIT8 SAMPLE @ 8 RSHIFT 1 AND SEND-BIT ;
+: BIT7 SAMPLE @ 7 RSHIFT 1 AND SEND-BIT ;
+: BIT6 SAMPLE @ 6 RSHIFT 1 AND SEND-BIT ;
+: BIT5 SAMPLE @ 5 RSHIFT 1 AND SEND-BIT ;
+: BIT4 SAMPLE @ 4 RSHIFT 1 AND SEND-BIT ;
+: BIT3 SAMPLE @ 3 RSHIFT 1 AND SEND-BIT ;
+: BIT2 SAMPLE @ 2 RSHIFT 1 AND SEND-BIT ;
+: BIT1 SAMPLE @ 1 RSHIFT 1 AND SEND-BIT ;
+: BIT0 SAMPLE @ 1 AND SEND-BIT ;
+
+: FINISH
+  DARK 880 TONE!
+  BEEP-ON 160 MS BEEP-OFF 120 MS
+  BEEP-ON 160 MS BEEP-OFF
+  DARK
+;
+
+: SHOW
+  ADC10@ SAMPLE !
+  READY
+  BIT9 BIT8 BIT7 BIT6 BIT5 BIT4 BIT3 BIT2 BIT1 BIT0
+  FINISH
+  SAMPLE @ . CR
+;
+
+( Run Source defines the application; it does not execute SHOW. )
+( Type SHOW at ok>. The decimal ADC value prints only after the show. )
