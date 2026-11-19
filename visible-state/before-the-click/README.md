@@ -5,6 +5,7 @@ Explore four interactive computing systems from 1962–1973: the LINC, Apollo DS
 - [Download the complete classroom kit](00/Before_the_Click_Classroom_Kit_v2.zip)
 - [Read the setup instructions](START_HERE.txt)
 - [Browse the standalone lab HTML](Before_the_Click_Lab.html)
+- [Activity Overview (PDF)](Before_the_Click_Activity_Overview.pdf)
 - [Student Fieldbook (PDF)](Student_Fieldbook.pdf)
 - [Teacher Guide (PDF)](Teacher_Guide.pdf)
 
