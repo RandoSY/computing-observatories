@@ -1,31 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Before the Click · Classroom Kit v2</title>
-  <style>
-    :root { color-scheme: light dark; }
-    body { font: 1.125rem/1.6 system-ui, sans-serif; margin: 0; }
-    main { box-sizing: border-box; max-width: 44rem; margin: auto; padding: clamp(1.25rem, 5vw, 3rem); }
-    h1, h2 { line-height: 1.2; }
-    li + li { margin-top: .4rem; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Explore four milestones in interactive computing, then use a simulated or live microcontroller to investigate sampling and timing.">
+<title>Before the Click · Classroom Kit · Randall Young</title>
+<link rel="stylesheet" href="../assets/calculus-theme.css">
+<link rel="stylesheet" href="../assets/atlas.css">
+<link rel="stylesheet" href="../assets/navigation.css">
+<link rel="stylesheet" href="../assets/teatime.css">
 </head>
-<body>
-  <main>
-    <h1>Before the Click</h1>
-    <p>Classroom Kit v2 brings the LINC, Apollo DSKY, DEC GT40, and Xerox Alto to life through four interactive stations. A fifth station lets students work with simulated data or connect a USB serial microcontroller.</p>
-    <p><strong><a href="Before_the_Click_Lab.html">Open the interactive lab</a></strong></p>
-    <h2>Classroom materials</h2>
-    <ul>
-      <li><a href="Student_Fieldbook.pdf">Student Fieldbook (PDF)</a></li>
-      <li><a href="Teacher_Guide.pdf">Teacher Guide (PDF)</a></li>
-      <li><a href="START_HERE.txt">Setup instructions</a></li>
-      <li><a href="00/Before_the_Click_Classroom_Kit_v2.zip">Download the complete kit (ZIP)</a></li>
-    </ul>
-    <p>For offline use, extract the ZIP and open the lab HTML in Chrome or Edge.</p>
-    <p><a href="/atlas/">Project Atlas home</a></p>
-  </main>
-</body>
+<body><main>
+<nav class="atlas-nav" aria-label="Project Atlas"><a href="../">Home</a> <a href="../exhibits/" class="atlas-nav-section" aria-current="location">Exhibits</a> <a href="../ideas/">Ideas</a> <a href="../inventory/">Projects</a> <a href="../repositories/">Repositories</a></nav>
+<p>RANDALL YOUNG · EXPERIENCE BEFORE EQUATION · INTERACTIVE COMPUTING</p>
+<h1>Before the Click</h1>
+<p>Take the controls of four early interactive systems, then trace what each machine receives, remembers, and shows.</p>
+
+<section class="tea-hero" aria-labelledby="linc-question">
+<div>
+<p class="atlas-kicker">Classroom exhibit · 1962–1973</p>
+<h2 id="linc-question">When can a moving signal look flat?</h2>
+<p>Start with the LINC. Sample the same signal at two rates and compare the points on the display. Then change the phase and predict what the next run will show.</p>
+<p class="tea-actions"><a class="tea-button" href="Before_the_Click_Lab.html">Open the interactive lab</a><a href="#classroom">Get the classroom materials</a></p>
+</div>
+<figure><img src="media/linc-lab.webp" width="1200" height="754" alt="LINC simulator showing a moving waveform, a flat row of new samples, and the earlier sample trace"><figcaption>LINC station. At four samples per second, a 2 Hz signal sampled at its zero crossings appears flat. The cyan rings show the earlier run at sixteen samples per second.</figcaption></figure>
+</section>
+
+<section id="stations" class="tea-section" aria-labelledby="station-title">
+<p class="atlas-kicker">Historical stations</p>
+<h2 id="station-title">Follow the input, the state, and the display</h2>
+<ol class="tea-steps">
+<li><h3>Sample a signal · LINC</h3><p>Change the sample rate and compare what two runs store and show.</p></li>
+<li><h3>Test the panel · Apollo DSKY</h3><p>Run the lamp test and use the results to investigate a hidden fault.</p></li>
+<li><h3>Follow the beam · DEC GT40</h3><p>Arm the light pen, try a line and blank glass, then step through the display list.</p></li>
+<li><h3>Point at nothing · Xerox Alto</h3><p>Draw on a blank bitmap and inspect the byte that changes beneath the cursor.</p></li>
+</ol>
+</section>
+
+<section id="hardware" class="tea-section" aria-labelledby="hardware-title">
+<p class="atlas-kicker">Hardware Bridge · Station 5</p>
+<h2 id="hardware-title">Measure the time between samples</h2>
+<p>Compare a clean stream with one that has timing jitter and dropped records. Check the timestamps for changing intervals and the sequence numbers for missing records.</p>
+<p>Use the built-in simulator or connect a USB serial microcontroller in Chrome or Edge. The live bridge reads CSV records in the format <code>seq,timestamp_us,adc_code</code>.</p>
+</section>
+
+<section id="classroom" class="tea-section" aria-labelledby="classroom-title">
+<p class="atlas-kicker">Classroom kit · v2</p>
+<h2 id="classroom-title">Teach it in pairs</h2>
+<p>Plan four 45-minute lessons and an optional 30-minute hardware bridge. All five stations can run in simulation. Print one fieldbook per pair.</p>
+<p class="tea-actions"><a class="tea-button" href="00/Before_the_Click_Classroom_Kit_v2.zip" download>Download the complete kit</a></p>
+<ul>
+<li><a href="Teacher_Guide.pdf">Teacher Guide (PDF)</a> · lesson plans and facilitation notes.</li>
+<li><a href="Student_Fieldbook.pdf">Student Fieldbook (PDF)</a> · predictions, observations, and evidence to record.</li>
+<li><a href="START_HERE.txt">Setup instructions</a> · browser, keyboard, and offline use.</li>
+</ul>
+</section>
+
+<footer>
+<p><a href="../">Project Atlas home</a> · <a href="https://github.com/RandoSY/computing-observatories/tree/main/visible-state/before-the-click">View the kit on GitHub</a></p>
+</footer>
+</main></body>
 </html>
