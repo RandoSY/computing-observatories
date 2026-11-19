@@ -1,0 +1,27 @@
+BEFORE THE CLICK (v2 — Extended Classroom & Hardware Bridge Edition)
+Five stations in interactive computing, 1962–1973 + Live Hardware Bridge
+Randall Young's historical physical-computing track
+
+1. Extract the entire ZIP.
+2. Open Before_the_Click_Lab.html in Chrome or Edge. No server, internet, install,
+   or account is required. Stations 01–04 need no hardware; Station 05 supports
+   both built-in jitter simulation and live 3.3V/5V USB-UART microcontrollers.
+3. Read Teacher_Guide.pdf and print one Student_Fieldbook.pdf per pair.
+4. Use a mouse or trackpad for Stations 3 and 4 when available. Touch works.
+   For keyboard input on those screens, focus the canvas and use arrows
+   to move the pointer. Enter selects on the GT40. Hold Space and move to
+   ink on the Alto; Enter toggles one pixel there.
+
+WHAT'S NEW IN V2
+- Live "Receive · Remember · Show" state triad bar on every station.
+- Auditable LINC runs: prior trace stays visible in dimmed cyan rings alongside
+  current bright-green points, with N and Δt (ms) explicitly displayed.
+- Non-spoiling DSKY lamp test: post-test status reports completion without
+  giving away the fault diagnosis before students compare against baseline.
+- Closest-beam light-pen disambiguation and hex/binary byte inspection on Alto.
+- Station 05 (Hardware Bridge): built-in jitter/packet-drop simulator plus
+  WebSerial CSV ingestion (`seq,timestamp_us,adc_code`) for tabletop MCUs
+  (MSP430, PIC, AVR, RP2040, BBC micro:bit).
+
+Run in order: LINC, Apollo DSKY, DEC GT40, Xerox Alto, and optional Station 05.
+The four core lessons take 45 minutes each; the transfer challenge takes ~30 minutes.

@@ -22,6 +22,8 @@ AVR, MSP430, CH32V003, RP2040-related and other small-machine Forth work used to
 
 Animated stack traces, glossaries, Reality View concepts, instruction stepping, and source/machine correspondence all serve the same educational purpose: turn computation into something that can be inspected rather than merely trusted.
 
+[Before the Click Classroom Kit v2](visible-state/before-the-click/) includes an interactive computing history lab and classroom materials.
+
 ## Design rules
 
 - Prefer systems small enough to understand end to end.

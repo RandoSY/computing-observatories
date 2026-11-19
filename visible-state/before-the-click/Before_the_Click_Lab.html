@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Before the Click · Interactive Computing Labs (v2)</title>
+<style>
+:root{color-scheme:dark;--bg:#161a18;--panel:#222a23;--border:#536052;--ink:#f1f1e4;--muted:#bac4b5;--light:#c9f5a4;--amber:#ffdb95;--cyan:#9be7ff;--mono:Consolas,"Liberation Mono",monospace;font:16px/1.55 system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#354735,transparent 62%),var(--bg);color:var(--ink)}main{max-width:1240px;margin:auto;padding:24px 28px 36px}
+button,input,select{font:inherit}button,select{min-height:40px;padding:6px 11px;border:1px solid #71816d;border-radius:6px;background:#1b241b;color:var(--ink)}button{cursor:pointer}button:hover,select:hover{background:#3a4c36}button[aria-pressed=true],button[aria-selected=true]{color:#172018;background:var(--light);border-color:var(--light);font-weight:750}
+button:focus-visible,select:focus-visible,input:focus-visible,canvas:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:4px}button:disabled{opacity:.45;cursor:not-allowed}a{color:var(--light)}
+h1,h2,h3,p{margin:0 0 10px}h1{font-size:clamp(2.4rem,6vw,4.8rem);letter-spacing:-.07em;line-height:.98}h2{font-size:clamp(1.5rem,3.5vw,2.3rem);letter-spacing:-.04em;line-height:1.12}h3{font-size:1.02rem}.eyebrow,.badge,.station-year{font:700 .78rem/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--amber)}
+.head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin:8px 0 18px}.head p:last-child{max-width:42ch;color:var(--muted);margin:0}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 16px}.tabs button{text-align:left;padding:8px 11px}.station-year{display:block;color:inherit;opacity:.9}.tabs strong{display:block;font-size:.95rem}
+.triad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 14px}
+.triad-card{background:#151d17;border:1px solid #485848;border-radius:8px;padding:8px 10px}
+.triad-card span{display:block;font:700 .72rem/1.3 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:2px}
+.triad-card code{font:.84rem/1.4 var(--mono);color:var(--light);word-break:break-word}
+.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:14px;align-items:start}.panel,.box{border:1px solid var(--border);border-radius:12px;background:var(--panel);min-width:0}.panel{padding:15px}.box{padding:13px;margin-bottom:10px}.box ol{padding-left:22px;margin:0}.box li+li{margin-top:6px}
+.small{font-size:.88rem;color:var(--muted)}.prompt{border-left:3px solid var(--amber);padding-left:10px;margin:0 0 13px;color:#f5e6bb}.heading{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:2px 0 12px;flex-wrap:wrap}.heading h2{margin-bottom:4px}
+.controls{display:flex;gap:7px 10px;align-items:center;flex-wrap:wrap;margin:10px 0}.controls label{display:inline-flex;gap:6px;align-items:center;font-size:.92rem}.controls input{accent-color:var(--light)}.stage{border:1px solid #7a8778;border-radius:9px;background:#111b15;padding:9px;box-shadow:inset 0 0 18px #0008}.stage canvas{width:100%;height:auto;display:block;border-radius:4px;touch-action:none}.status{min-height:2.85em;background:#151d17;border:1px solid #4b594b;color:var(--light);font:.86rem/1.5 var(--mono);padding:7px 9px;border-radius:6px;margin:10px 0 0;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%;font:.84rem/1.4 var(--mono)}th,td{padding:4px 6px;border-bottom:1px solid #566456;text-align:left}th{color:var(--amber)}details{margin:10px 0 0}summary{cursor:pointer;color:var(--light);font-size:.92rem}details p{margin:8px 0 0}.list{white-space:pre;overflow:auto;max-height:17rem;font:.82rem/1.55 var(--mono);background:#152018;padding:9px;border-radius:6px;color:#d5ead2}
+.dsky{background:#121613;border:5px solid #66776b;border-radius:10px;padding:10px;max-width:510px;margin:auto}.dtop{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:9px}.dlamps{display:grid;grid-template-columns:1fr 1fr;gap:3px;align-content:start}.dlamps span{background:#262b26;border:1px solid #677166;text-align:center;font:700 clamp(.6rem,1.3vw,.82rem)/1.15 var(--mono);padding:7px 1px;color:#abb1a8;min-height:30px}.dlamps .on{color:#292411;background:#ffe0a0;border-color:#ffe8b9}.reads{display:grid;gap:4px}.dlabels{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;color:var(--muted);text-align:center;font:700 .72rem var(--mono)}.dig{display:block;background:#08170d;color:var(--light);font:700 clamp(.95rem,3.7vw,1.76rem)/1.2 var(--mono);letter-spacing:.07em;border:1px solid #48654b;text-align:right;padding:2px 8px;min-height:1.2em}.dlabels .dig{padding:2px 1px;text-align:center}.keypad{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:10px}.keypad button{padding:3px 0;min-height:37px;font:700 .8rem var(--mono)}
+.alto{max-width:360px;margin:auto;background:#e0dcca;border:7px solid #c8c4b3;box-shadow:none}.alto canvas{cursor:crosshair;image-rendering:pixelated;max-height:440px;object-fit:contain}
+.preset-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px dashed #4a594a}
+.foot{color:var(--muted);font-size:.88rem;border-top:1px solid var(--border);margin-top:18px;padding-top:12px}
+@media(max-width:860px){.tabs{grid-template-columns:repeat(2,1fr)}.triad{grid-template-columns:1fr}}
+@media(max-width:740px){main{padding:14px 12px 28px}.head{display:block}.head p:last-child{margin-top:10px}.grid{grid-template-columns:1fr}.panel{padding:11px}}
+@media print{body{background:white;color:black}.tabs,.controls,.foot,.preset-bar{display:none}}
+</style></head><body><main>
+<header class="head"><div><div class="eyebrow">Interactive computing · 1962–1973 + Hardware Bridge</div><h1>Before the Click</h1></div><p>Five stations. Take the controls first, then trace what the machine received, what it remembered, and what it showed.</p></header>
+<nav class="tabs" aria-label="Lessons">
+<button data-tab="linc" type="button"><span class="station-year">1962</span><strong>01 · LINC</strong></button>
+<button data-tab="dsky" type="button"><span class="station-year">1969</span><strong>02 · Apollo DSKY</strong></button>
+<button data-tab="gt" type="button"><span class="station-year">1972</span><strong>03 · DEC GT40</strong></button>
+<button data-tab="alto" type="button"><span class="station-year">1973</span><strong>04 · Xerox Alto</strong></button>
+<button data-tab="bridge" type="button"><span class="station-year">Extension</span><strong>05 · Live UART / Jitter</strong></button>
+</nav>
+<div id="lesson"></div>
+<footer class="foot">Classroom models, not full-machine emulators. No student data leaves the browser. Includes WebSerial hardware bridge (Station 05) for tabletop microcontrollers.</footer>
+</main>
+<script>
+"use strict";
+const $=s=>document.getElementById(s),host=$("lesson");let current="",generation=0;
+const models={};
+const titles={
+ linc:["LINC · Sample a signal","When can a moving signal look flat?"],
+ dsky:["Apollo · Test the panel","Does a dark warning light mean everything is fine?"],
+ gt:["GT40 · Follow the beam","What does a light pen report when there is no light?"],
+ alto:["Alto · Point at nothing","Can you start a drawing where there’s nothing to point at?"],
+ bridge:["Hardware Bridge · Real Sampling & Jitter","What happens when real timestamps drift or packets drop?"]
+};
+const panels={
+linc:`
+<div class="controls"><label>Signal <select id="freq"><option>1</option><option selected>2</option><option>3</option><option>5</option></select> Hz</label><label>Sample rate <select id="rate"><option>4</option><option>8</option><option selected>16</option><option>32</option></select> / s</label><label>Phase <select id="phase"><option>0</option><option>45</option><option>90</option></select>°</label><label>Codes <select id="steps"><option value="3">−3…+3</option><option value="7">−7…+7</option><option value="127" selected>−127…+127</option></select></label></div>
+<div class="controls"><button id="acquire">Acquire 2 seconds</button><button id="clearGhost">Clear prior trace</button><label><input id="reference" type="checkbox"> Show source signal</label></div>
+<div class="stage"><canvas id="scope" width="600" height="315" aria-label="LINC display with sampled points"></canvas></div>
+<p class="status" id="lstatus" role="status"></p>
+`,
+dsky:`
+<div class="dsky" aria-label="Simplified Apollo display and keyboard">
+<div class="dtop"><div class="dlamps" id="lamps"></div><div class="reads">
+<div class="dlabels"><span>PROG<b class="dig" id="prog">00</b></span><span>VERB<b class="dig" id="verb">––</b></span><span>NOUN<b class="dig" id="noun">––</b></span></div>
+<div class="dig" id="r1" aria-label="Register 1">-----</div><div class="dig" id="r2" aria-label="Register 2">-----</div><div class="dig" id="r3" aria-label="Register 3">-----</div>
+</div></div>
+<div class="keypad" id="keys" aria-label="DSKY training keys"></div>
+</div><p class="status" id="dstatus" role="status"></p>
+<div class="controls"><button id="dreset">Clear trainer</button><details><summary>Instructor fault switch</summary><label><input type="checkbox" id="broken"> Simulate an open TEMP lamp circuit</label></details></div>
+`,
+gt:`
+<div class="controls"><button id="square" aria-pressed="true">DEC manual square</button><button id="terrain" aria-pressed="false">Terrain</button><button id="arm" aria-pressed="false">Pen off</button></div>
+<div class="stage"><canvas id="crt" width="1024" height="768" tabindex="0" aria-label="GT40 vector CRT. Click or tap a line. Keyboard arrows move a teaching reticle. Enter tests for a light pen hit."></canvas></div>
+<div class="controls"><button id="run" aria-pressed="true">Run list</button><button id="step">Step one instruction</button><button id="resume" disabled>Resume after hit</button></div>
+<p class="status" id="gstatus" role="status"></p>
+`,
+alto:`
+<div class="controls"><button id="blank">Blank page</button><button id="bitmapterrain">Load same terrain</button><button id="ink" aria-pressed="true">Ink</button><button id="erase" aria-pressed="false">Erase</button></div>
+<div class="stage alto"><canvas id="bitmap" width="96" height="128" tabindex="0" aria-label="Alto teaching bitmap. Drag to draw. Keyboard arrows move the cursor, Space held during movement draws, and Enter toggles one pixel."></canvas></div>
+<p class="status" id="astatus"></p><p class="small" style="margin-top:8px">Keyboard: Tab to focus the page. Arrows move, Enter toggles a pixel, and Space draws while you move.</p>
+`,
+bridge:`
+<div class="controls">
+<label>Source <select id="bsource"><option value="sim_clean">Simulated MCU (Clean 16 Hz)</option><option value="sim_jitter" selected>Simulated MCU (Jitter + Dropped Frames)</option><option value="serial">Live WebSerial UART (CSV)</option></select></label>
+<label>Baud <select id="baud"><option>9600</option><option selected>115200</option></select></label>
+<button id="bstart">Start Stream</button>
+<button id="bstop" disabled>Stop</button>
+</div>
+<div class="stage"><canvas id="bscope" width="600" height="315" aria-label="Hardware bridge time-series canvas"></canvas></div>
+<p class="status" id="bstatus" role="status"></p>
+`
+};
+const side={
+ linc:`<section class="box"><h3>Predict · test · explain</h3><ol><li>Acquire at 2 Hz and 16 samples/s. Sketch the dots (bright green).</li><li>Keep the signal unchanged. Drop to 4 samples/s and acquire again. Compare against the ghosted prior run.</li><li>Show the source signal. Try a 90° phase. What changed, and what didn’t?</li></ol></section>
+<section class="box"><h3>Acquired samples (<span id="scount">N=32 · Δt=62.5 ms</span>)</h3><table aria-label="Acquired sample data"><thead><tr><th>n</th><th>Time (s)</th><th>Code</th></tr></thead><tbody id="sampleRows"></tbody></table>
+<details><summary>What the model represents</summary><p><code>SAM</code> samples an analog input into the accumulator. <code>DIS</code> plots one point using X from a selected register and Y from the accumulator. Prior runs appear dimmed so you can compare sample spacing directly.</p></details></section>`,
+ dsky:`<section class="box"><h3>Predict · test · explain</h3><ol><li>Try <b>VERB 35 ENTR</b> with the trainer in P00. Record which lamps and digits respond.</li><li>Have a partner set a hidden fault or leave it healthy. Repeat the test and state your evidence.</li><li>Try <b>VERB 06 NOUN 36 ENTR</b>, then repeat with verb <b>16</b>. Observe for at least three seconds each time.</li></ol></section><section class="box"><h3>Verb · noun</h3><p><strong>06</strong> Display once (snapshot)<br><strong>16</strong> Monitor (continuous)<br><strong>35</strong> Test lights (5 s)<br><strong>36</strong> Clock data (HR / MIN / SEC×100)</p><p class="small">P00 training model. R1 shows hours, R2 minutes, and R3 whole seconds scaled by 100 (stepping by 00100 per second). Only the commands shown are supported.</p></section>`,
+ gt:`<section class="box"><h3>Predict · test · explain</h3><ol><li>Try the top edge of the square with Pen off. Arm the pen and repeat. Test blank glass.</li><li>After a hit, record X, Y, and the next display-program counter (DPC). Resume.</li><li>Step through the list. Find the blank move, a line, and the jump back. Load terrain for comparison with Lesson 4.</li></ol></section><section class="box"><h3>Live display list · octal</h3><div id="words" class="list" aria-label="Octal display list"></div><details><summary>What the model represents</summary><p>The square is DEC’s documented display list. Arming the pen changes bit 5 (<code>040</code> octal) of its first SET GRAPHIC MODE word. Green lines are beam paths; the amber reticle is a teaching aid.</p></details></section>`,
+ alto:`<section class="box"><h3>Predict · test · explain</h3><ol><li>Clear the page. Move the cursor across the empty bitmap without clicking. What happens to ink count?</li><li>Begin in blank space and draw a box. Erase part of it. Watch the byte under the cursor.</li><li>Load terrain. Compare its fixed 1,536-byte bitmap against the GT40’s 56-byte vector list.</li></ol></section><section class="box"><h3>Byte under cursor</h3><p id="bits" class="status"></p><p class="small">Bit 7 is leftmost. Cursor is a separate overlay and changes no image bits. Scaling contrast: the Alto model always uses <strong>1,536 bytes</strong> whether blank or full, while the GT40 terrain uses <strong>28 words (56 bytes)</strong>—growing only when vectors are added.</p><details><summary>Mouse lineage</summary><p>1964 SRI prototype · 1968 public demo · 1973 Alto · 1979 Apple visits PARC. The Alto was not the commercially marketed Xerox Star of 1981.</p></details></section>`,
+ bridge:`<section class="box"><h3>Tabletop Hardware Protocol</h3><ol><li>Connect any 3.3V/5V MCU (MSP430, PIC, AVR, RP2040, micro:bit) via USB-UART sending CSV lines:<br><code>seq,timestamp_us,adc_code</code></li><li>Compare commanded sample rate against measured <code>Δt</code> between consecutive timestamps.</li><li>Identify dropped sequence numbers (<code>seq</code> gaps) vs. aliasing.</li></ol></section><section class="box"><h3>Recent UART Records</h3><table aria-label="Hardware telemetry log"><thead><tr><th>seq</th><th>Δt (ms)</th><th>Code</th></tr></thead><tbody id="brows"></tbody></table><details><summary>Why this extends Lesson 01</summary><p>In Lesson 01, sample intervals were mathematically uniform. Real microcontrollers experience ISR latency, serial buffer stalls, and dropped packets—making explicit sequence numbers and hardware timestamps essential.</p></details></section>`
+};
+function triadHTML(){
+ return `<div class="triad" aria-label="System state triad">
+  <div class="triad-card"><span>1 · Receive (Input)</span><code id="t_in">—</code></div>
+  <div class="triad-card"><span>2 · Remember (State)</span><code id="t_mem">—</code></div>
+  <div class="triad-card"><span>3 · Show (Output)</span><code id="t_out">—</code></div>
+ </div>`;
+}
+function setTriad(i,m,o){
+ if($("t_in"))$("t_in").textContent=i;
+ if($("t_mem"))$("t_mem").textContent=m;
+ if($("t_out"))$("t_out").textContent=o;
+}
+function openLesson(k){
+ current=k;const g=++generation;
+ for(const b of document.querySelectorAll("[data-tab]"))b.setAttribute("aria-pressed",String(b.dataset.tab===k));
+ host.innerHTML=`<div class="heading"><div><h2>${titles[k][0]}</h2><p class="prompt">${titles[k][1]}</p></div></div>${triadHTML()}<div class="grid"><section class="panel" aria-label="Working model">${panels[k]}</section><aside>${side[k]}</aside></div>`;
+ ({linc:lincUI,dsky:dskyUI,gt:gtUI,alto:altoUI,bridge:bridgeUI})[k](g);
+}
+const limit=(n,a,b)=>Math.min(b,Math.max(a,n));
+const oct=(n,w=6)=>n.toString(8).padStart(w,"0");
+function samples(freq,rate,phase,steps){
+ return Array.from({length:2*rate},(_,i)=>{
+  const t=i/rate,value=Math.sin(2*Math.PI*freq*t+phase*Math.PI/180);
+  return {t,value,code:Math.sign(value)*Math.round(steps*Math.abs(value))||0};
+ });
+}
+models.samples=samples;
+function lincUI(){
+ const cv=$("scope"),c=cv.getContext("2d"),w=cv.width,h=cv.height,px=t=>40+t*(w-55)/2,py=y=>h/2-y*110;
+ let log=[],prevLog=null,acquired,prevAcq=null;
+ function draw(){
+  c.fillStyle="#0b1b12";c.fillRect(0,0,w,h);c.strokeStyle="#436044";c.lineWidth=1;
+  for(const t of [0,.5,1,1.5,2]){c.beginPath();c.moveTo(px(t),31);c.lineTo(px(t),h-38);c.stroke();c.fillStyle="#a9bba8";c.font="14px monospace";c.fillText(t.toFixed(1),px(t)-9,h-16)}
+  c.beginPath();c.moveTo(px(0),py(0));c.lineTo(px(2),py(0));c.stroke();
+  if($("reference").checked){
+   c.strokeStyle="#e4bc6c";c.setLineDash([4,4]);c.beginPath();
+   for(let i=0;i<=400;i++){const t=i/200,yy=py(Math.sin(2*Math.PI*acquired.f*t+acquired.p*Math.PI/180));if(i)c.lineTo(px(t),yy);else c.moveTo(px(t),yy)}
+   c.stroke();c.setLineDash([]);
+  }
+  if(prevLog&&prevAcq){
+   c.fillStyle="rgba(155, 231, 255, 0.35)";
+   for(const s of prevLog){c.beginPath();c.arc(px(s.t),py(s.code/prevAcq.q),4.5,0,2*Math.PI);c.fill()}
+  }
+  c.fillStyle="#caffac";for(const s of log){c.beginPath();c.arc(px(s.t),py(s.code/acquired.q),3.2,0,2*Math.PI);c.fill()}
+ }
+ function acquire(){
+  if(log.length){prevLog=log;prevAcq=acquired;}
+  acquired={f:+$("freq").value,r:+$("rate").value,p:+$("phase").value,q:+$("steps").value};
+  log=samples(acquired.f,acquired.r,acquired.p,acquired.q);draw();
+  const dtMs=(1000/acquired.r).toFixed(1);
+  $("scount").textContent=`N=${log.length} · Δt=${dtMs} ms`;
+  $("sampleRows").innerHTML=log.slice(0,8).map((s,i)=>`<tr><td>${i}</td><td>${s.t.toFixed(4)}</td><td>${s.code}</td></tr>`).join("");
+  $("lstatus").textContent=`${log.length} samples @ ${acquired.r}/s (Δt=${dtMs} ms) · codes ${Math.min(...log.map(s=>s.code))} to ${Math.max(...log.map(s=>s.code))}${prevLog?" · cyan rings = prior run":""}`;
+  setTriad(`SAM @ ${acquired.r} Hz (Δt=${dtMs} ms)`,`${log.length} signed codes [−${acquired.q}..+${acquired.q}]`,`DIS point plot (${log.length} green dots)`);
+ }
+ $("clearGhost").onclick=()=>{prevLog=null;prevAcq=null;draw();$("lstatus").textContent="Prior trace cleared."};
+ for(const a of ["freq","rate","phase","steps"])$(a).onchange=()=>{$("lstatus").textContent="Settings changed. Acquire again to update the dots."};
+ $("acquire").onclick=acquire;$("reference").onchange=draw;acquire();
+}
+function dskyState(t=0){return {verb:"",noun:"",field:"verb",kind:"idle",frozen:null,error:false,end:0,base:t,fault:false,msg:"P00 ready. Enter a verb."}}
+function dskyKey(s,k,t){
+ if(k==="RSET"){s.error=false;s.verb="";s.noun="";s.field="verb";s.kind="idle";s.msg="Reset to P00 idle.";return}
+ if(k==="CLR"){s[s.field]="";return}
+ if(k==="VERB"||k==="NOUN"){s.field=k.toLowerCase();s[s.field]="";if(k==="VERB")s.noun="";return}
+ if(/^\d$/.test(k)){s[s.field]=(s[s.field]+k).slice(-2);return}
+ if(k!=="ENTR")return;
+ s.error=false;
+ if(s.verb==="35"&&!s.noun){s.kind="test";s.end=t+5000;s.msg="Lamp test active (5.0 s). Observe all lamps and digits.";return}
+ if((s.verb==="06"||s.verb==="16")&&s.noun==="36"){s.kind=s.verb==="06"?"snapshot":"monitor";s.frozen=Math.floor((t-s.base)/1000);s.msg=s.kind==="snapshot"?"V06 N36: Clock captured once (frozen).":"V16 N36: Clock monitoring (live updates).";return}
+ s.error=true;s.msg="OPR ERR. Check command syntax and press RSET or re-enter.";
+}
+function dskyView(s,t){
+ if(s.kind==="test"&&t>=s.end){s.kind="idle";s.msg="Lamp test complete (5.0 s). Compare observed lamps against baseline."}
+ const tt=s.kind==="test",sec=s.kind==="snapshot"?s.frozen:Math.floor((t-s.base)/1000);
+ const groups=[Math.floor(sec/3600),Math.floor(sec%3600/60),(sec%60)*100].map(x=>"+"+String(x).padStart(5,"0"));
+ return {test:tt,verb:tt?"88":s.verb.padEnd(2,"–"),noun:tt?"88":s.noun.padEnd(2,"–"),prog:tt?"88":"00",r:tt?Array(3).fill("+88888"):["monitor","snapshot"].includes(s.kind)?groups:Array(3).fill("-----")};
+}
+models.dskyState=dskyState;models.dskyKey=dskyKey;models.dskyView=dskyView;
+function dskyUI(g){
+ let s=dskyState(performance.now());
+ const lamps=["UPLINK ACTY","TEMP","NO ATT","GIMBAL LOCK","STBY","PROG","KEY REL","RESTART","OPR ERR","TRACKER","ALT","VEL","PRIORITY","NO DAP"];
+ $("lamps").innerHTML=lamps.map(k=>`<span>${k}</span>`).join("");
+ $("keys").innerHTML=["VERB","7","8","9","CLR","NOUN","4","5","6","ENTR","RSET","1","2","3","0"].map(k=>`<button type="button" data-key="${k}">${k}</button>`).join("");
+ function render(){
+  const v=dskyView(s,performance.now());for(const p of ["verb","noun","prog"])$(p).textContent=v[p];
+  v.r.forEach((n,i)=>{$("r"+(i+1)).textContent=n});
+  [...$("lamps").children].forEach((el,i)=>el.classList.toggle("on",(v.test&&!(s.fault&&lamps[i]==="TEMP"))||(s.error&&lamps[i]==="OPR ERR")));
+  if($("dstatus").textContent!==s.msg)$("dstatus").textContent=s.msg;
+  setTriad(`Key buffer V:${v.verb} N:${v.noun}`,`Mode: ${s.kind}${s.fault?" (TEMP open)":" (healthy)"}`,`${v.test?"All-88 test drive":s.kind==="idle"?"Blank registers":"R1..R3 = "+v.r.join(" ")}`);
+ }
+ $("keys").onclick=e=>{const k=e.target.closest("[data-key]")?.dataset.key;if(k){dskyKey(s,k,performance.now());render()}};
+ $("dreset").onclick=()=>{const fault=s.fault;s=dskyState(performance.now());s.fault=fault;render()};
+ $("broken").onchange=e=>{s.fault=e.target.checked;render()};
+ render();const timer=setInterval(()=>{if(g!==generation){clearInterval(timer);return}render()},100);
+}
+const DEC_SQUARE=[0o117124,0o500,0o500,0o110000,0o40200,0,0o40000,0o200,0o60200,0,0o40000,0o20200,0o160000,0o2000];
+const BASE=0o2000,STRUCT=[[0.06,.24],[.13,.33],[.19,.29],[.27,.37],[.35,.21],[.42,.28],[.48,.20],[.60,.20],[.68,.32],[.75,.26],[.84,.37],[.94,.23]];
+function terrainWords(){
+ const p=STRUCT.map(([x,y])=>[Math.round(x*1023),Math.round(y*767)]);
+ const out=[0o117124,p[0][0],p[0][1],0o110000];
+ for(let i=1;i<p.length;i++){
+  const dx=p[i][0]-p[i-1][0],dy=p[i][1]-p[i-1][1];
+  out.push(0o40000|(dx<0?0o20000:0)|Math.abs(dx),(dy<0?0o20000:0)|Math.abs(dy));
+ }
+ return out.concat([0o160000,BASE]);
+}
+function decode(words){
+ let x=0,y=0,mode=-1,lp=false,pc=0;const all=[];
+ for(let count=0;pc<words.length&&count<500;count++){
+  const from=pc,a=words[pc++];let desc="",line=null;
+  if((a&0xf800)===0o160000){const target=words[pc++];all.push({from,pc,desc:"DJMP "+oct(target),line});break}
+  if(a&0x8000){mode=(a>>11)&7;if(a&0o100)lp=!!(a&0o40);desc=mode===3?"SET POINT"+(lp?" · pen on":" · pen off"):"SET LONG VECTOR"}
+  else if((mode===3||mode===2)&&pc<words.length){
+   const b=words[pc++],on=!!(a&0o40000),lx=a&1023,ly=b&1023;
+   if(mode===3){x=lx;y=ly;desc=(on?"POINT":"BLANK MOVE")+" ("+x+", "+y+")";if(on)line={x,y,X:x,Y:y,lp}}
+   else{const dx=(a&0o20000)?-lx:lx,dy=(b&0o20000)?-ly:ly;desc=(on?"VECTOR":"BLANK VECTOR")+" ("+dx+", "+dy+")";if(on)line={x,y,X:x+dx,Y:y+dy,lp};x+=dx;y+=dy}
+  }else{desc="UNSUPPORTED";break}
+  all.push({from,pc,desc,line});
+ }
+ return all;
+}
+function pen(instructions,pos,tolerance=12){
+ let best=null,bestDist=Infinity;
+ for(const ins of instructions){
+  const s=ins.line;if(!s?.lp)continue;
+  const dx=s.X-s.x,dy=s.Y-s.y,t=limit(((pos.x-s.x)*dx+(pos.y-s.y)*dy)/(dx*dx+dy*dy||1),0,1);
+  const x=s.x+dx*t,y=s.y+dy*t,d=Math.hypot(pos.x-x,pos.y-y);
+  if(d<=tolerance&&d<bestDist){bestDist=d;best={x:Math.round(x),y:Math.round(y),dpc:BASE+2*ins.pc,ins};}
+ }
+ return best;
+}
+models.square=DEC_SQUARE;models.decode=decode;models.pen=pen;models.terrainWords=terrainWords;
+function gtUI(){
+ const cv=$("crt"),c=cv.getContext("2d");let scene="square",armed=false,word,inst,stepped=-1,hit=null,ret=null;
+ function load(){word=(scene==="square"?DEC_SQUARE:terrainWords()).slice();if(armed)word[0]|=0o40;inst=decode(word);reset();draw()}
+ function reset(){hit=null;stepped=-1;$("resume").disabled=true;$("run").setAttribute("aria-pressed","true");
+  $("gstatus").textContent=(scene==="square"?"DEC square · ":"Terrain · ")+(armed?"Pen enabled. Try a line, then try blank glass.":"Pen disabled. Try a line, then arm the pen.");}
+ function draw(){
+  c.fillStyle="#09180d";c.fillRect(0,0,1024,768);
+  const visible=stepped===-1?inst:inst.slice(0,stepped+1);
+  c.lineWidth=3;c.lineCap="round";c.shadowBlur=10;c.shadowColor="#acf295";c.strokeStyle="#c5ffa6";
+  for(const k of visible){const l=k.line;if(l){c.beginPath();c.moveTo(l.x,767-l.y);c.lineTo(hit&&k===hit.ins?hit.x:l.X,767-(hit&&k===hit.ins?hit.y:l.Y));c.stroke()}if(hit&&k===hit.ins)break}
+  c.shadowBlur=0;
+  if(ret){c.strokeStyle="#dfba73";c.lineWidth=2;c.beginPath();c.moveTo(ret.x-10,767-ret.y);c.lineTo(ret.x+10,767-ret.y);c.moveTo(ret.x,757-ret.y);c.lineTo(ret.x,777-ret.y);c.stroke()}
+  const selected=hit?.ins??inst[stepped];
+  $("words").textContent=inst.map(k=>`${k===selected?">":" "} ${oct(BASE+k.from*2)} ${word.slice(k.from,k.pc).map(x=>oct(x)).join(" ")}   ${k.desc}`).join("\n");
+  setTriad(ret?`Photodiode @ (${ret.x}, ${ret.y})`:`No pen probe yet`,`${word.length} words (${word.length*2} B) · pen ${armed?"ARMED":"OFF"}`,hit?`HALT @ DPC ${oct(hit.dpc)}`:`Scanning ${visible.length}/${inst.length} cmds`);
+ }
+ function click(p){
+  ret=p;
+  if(hit)return;
+  const active=stepped===-1?inst:inst.slice(0,stepped+1),h=pen(active,p);
+  if(!h){$("gstatus").textContent=armed?"No hit · no lit beam under photodiode at this spot.":"No hit · display word bit 040 disables pen interrupts.";draw();return}
+  hit=h;$("resume").disabled=false;$("run").setAttribute("aria-pressed","false");
+  $("gstatus").textContent=`PEN IRQ · X ${h.x}, Y ${h.y} (decimal) · next DPC ${oct(h.dpc)} (octal)`;draw();
+ }
+ cv.onpointerdown=e=>{const b=cv.getBoundingClientRect();cv.focus({preventScroll:true});click({x:limit(Math.round((e.clientX-b.left)*1024/b.width),0,1023),y:767-limit(Math.round((e.clientY-b.top)*768/b.height),0,767)})};
+ cv.onkeydown=e=>{
+  const map={ArrowLeft:[-8,0],ArrowRight:[8,0],ArrowUp:[0,8],ArrowDown:[0,-8]};
+  if(!map[e.key]&&e.key!=="Enter")return;e.preventDefault();let p=ret||{x:384,y:432};
+  if(e.key==="Enter"){click(p);return}const [x,y]=map[e.key];ret={x:limit(p.x+x,0,1023),y:limit(p.y+y,0,767)};draw();
+ };
+ function choose(k){scene=k;ret=null;$("square").setAttribute("aria-pressed",String(k==="square"));$("terrain").setAttribute("aria-pressed",String(k==="terrain"));load()}
+ $("square").onclick=()=>choose("square");$("terrain").onclick=()=>choose("terrain");
+ $("arm").onclick=()=>{armed=!armed;$("arm").textContent=armed?"Pen armed":"Pen off";$("arm").setAttribute("aria-pressed",String(armed));load()};
+ $("run").onclick=()=>{reset();draw()};
+ $("resume").onclick=()=>{const d=hit?.dpc;reset();$("gstatus").textContent="Host resumes display list after hit at DPC "+oct(d);draw()};
+ $("step").onclick=()=>{
+  hit=null;$("resume").disabled=true;stepped=(stepped+1)%inst.length;$("run").setAttribute("aria-pressed","false");
+  const k=inst[stepped],next=k.desc.startsWith("DJMP")?BASE:BASE+k.pc*2;
+  $("gstatus").textContent=k.desc+" · next DPC "+oct(next)+" (octal)";draw();
+ };load();
+}
+const BW=96,BH=128,STRIDE=BW/8;
+function bitWhere(x,y){return [y*STRIDE+(x>>3),128>>(x&7)]}
+function bitGet(buf,x,y){const [p,m]=bitWhere(x,y);return !!(buf[p]&m)}
+function bitSet(buf,x,y,on){if(x<0||x>=BW||y<0||y>=BH)return;const [p,m]=bitWhere(x,y);if(on)buf[p]|=m;else buf[p]&=~m}
+function stroke(buf,a,b,on){
+ let {x,y}=a;const dx=Math.abs(b.x-a.x),dy=-Math.abs(b.y-a.y),sx=a.x<b.x?1:-1,sy=a.y<b.y?1:-1;let err=dx+dy;
+ for(;;){bitSet(buf,x,y,on);if(x===b.x&&y===b.y)break;const e=err*2;if(e>=dy){err+=dy;x+=sx}if(e<=dx){err+=dx;y+=sy}}
+}
+models.bitWhere=bitWhere;models.bitGet=bitGet;models.bitSet=bitSet;models.stroke=stroke;
+function altoUI(){
+ const cv=$("bitmap"),c=cv.getContext("2d"),buf=new Uint8Array(STRIDE*BH);let tool=true,old=null,pointer={x:48,y:64},down=false,space=false;
+ const ct=Array.from({length:256},(_,i)=>i.toString(2).split("1").length-1),im=c.createImageData(BW,BH);
+ function draw(){
+  for(let y=0;y<BH;y++)for(let x=0;x<BW;x++){const d=(y*BW+x)*4,k=bitGet(buf,x,y)?20:242;im.data[d]=k;im.data[d+1]=k;im.data[d+2]=k;im.data[d+3]=255}
+  c.putImageData(im,0,0);
+  const {x,y}=pointer;c.fillStyle="#00755b";c.fillRect(x-3,y,7,1);c.fillRect(x,y-3,1,7);
+  const [address,mask]=bitWhere(x,y),byte=buf[address].toString(2).padStart(8,"0"),hex=buf[address].toString(16).toUpperCase().padStart(2,"0");
+  const inkTotal=buf.reduce((s,b)=>s+ct[b],0);
+  $("astatus").textContent=`Cursor (${x}, ${y}) · ${inkTotal} ink pixels · ${buf.length} bytes fixed framebuffer`;
+  $("bits").textContent=`Byte[${address}] = 0x${hex} (0b${byte}) · bit ${Math.log2(mask)} = ${buf[address]&mask?1:0}`;
+  setTriad(`Mouse (${x}, ${y}) · btn ${down||space?"DOWN":"UP"}`,`1,536-byte bitmap (${inkTotal} bits set)`,`Raster + separate cursor overlay`);
+ }
+ const get=e=>{const b=cv.getBoundingClientRect();return {x:limit(Math.floor((e.clientX-b.left)*BW/b.width),0,BW-1),y:limit(Math.floor((e.clientY-b.top)*BH/b.height),0,BH-1)}};
+ cv.onpointerdown=e=>{cv.focus({preventScroll:true});cv.setPointerCapture(e.pointerId);pointer=get(e);down=true;old=pointer;bitSet(buf,pointer.x,pointer.y,tool);draw()};
+ cv.onpointermove=e=>{pointer=get(e);if(down&&old){stroke(buf,old,pointer,tool);old=pointer}draw()};
+ for(const k of ["pointerup","pointercancel","lostpointercapture"])cv.addEventListener(k,()=>{down=false;old=null});
+ function key(e){
+  const m={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
+  if(!m[e.key]&&e.key!==" "&&e.key!=="Enter")return;e.preventDefault();
+  if(e.key===" "){space=true;bitSet(buf,pointer.x,pointer.y,tool)}
+  else if(e.key==="Enter"){if(!e.repeat)bitSet(buf,pointer.x,pointer.y,!bitGet(buf,pointer.x,pointer.y))}
+  else{const [x,y]=m[e.key],p={x:limit(pointer.x+x,0,BW-1),y:limit(pointer.y+y,0,BH-1)};if(space)stroke(buf,pointer,p,tool);pointer=p}draw();
+ }
+ cv.onkeydown=key;cv.onkeyup=e=>{if(e.key===" ")space=false};cv.onblur=()=>{space=false};
+ $("blank").onclick=()=>{buf.fill(0);draw()};$("bitmapterrain").onclick=()=>{
+  buf.fill(0);const p=STRUCT.map(([x,y])=>({x:Math.round(x*(BW-1)),y:Math.round((1-y)*(BH-1))}));for(let i=1;i<p.length;i++)stroke(buf,p[i-1],p[i],true);draw();
+ };
+ function mode(on){tool=on;$("ink").setAttribute("aria-pressed",String(on));$("erase").setAttribute("aria-pressed",String(!on))}
+ $("ink").onclick=()=>mode(true);$("erase").onclick=()=>mode(false);draw();
+}
+function bridgeUI(g){
+ const cv=$("bscope"),c=cv.getContext("2d"),w=cv.width,h=cv.height;
+ let running=false,records=[],seq=0,tUs=0,port=null,reader=null,simTimer=null;
+ function draw(){
+  c.fillStyle="#0b1b12";c.fillRect(0,0,w,h);c.strokeStyle="#436044";c.lineWidth=1;
+  c.beginPath();c.moveTo(40,h/2);c.lineTo(w-15,h/2);c.stroke();
+  if(records.length<2)return;
+  const t0=records[0].t,t1=Math.max(t0+1,records[records.length-1].t);
+  const px=t=>40+(t-t0)*(w-55)/(t1-t0),py=v=>h/2-(v/127)*110;
+  for(let i=0;i<records.length;i++){
+   const r=records[i];
+   if(i>0&&r.seq-records[i-1].seq>1){
+    c.strokeStyle="#ff6b6b";c.setLineDash([3,3]);c.beginPath();c.moveTo(px(records[i-1].t),25);c.lineTo(px(r.t),h-25);c.stroke();c.setLineDash([]);
+   }
+   c.fillStyle="#caffac";c.beginPath();c.arc(px(r.t),py(r.code),3.5,0,2*Math.PI);c.fill();
+  }
+ }
+ function pushRecord(s,ts,code){
+  const prev=records[records.length-1];
+  const dtMs=prev?((ts-prev.t)/1000).toFixed(2):"—";
+  const gap=prev?(s-prev.seq-1):0;
+  records.push({seq:s,t:ts,code,dtMs,gap});
+  if(records.length>40)records.shift();
+  const dropped=records.reduce((a,r)=>a+Math.max(0,r.gap),0);
+  $("brows").innerHTML=records.slice(-8).reverse().map(r=>`<tr><td>${r.seq}${r.gap>0?` (+${r.gap} drop)`:""}</td><td>${r.dtMs}</td><td>${r.code}</td></tr>`).join("");
+  $("bstatus").textContent=`seq=${s} · Δt=${dtMs} ms · code=${code} · total dropped=${dropped}`;
+  setTriad(`UART seq=${s}, ts=${ts} µs`,`Ring buffer (${records.length} frames, ${dropped} gaps)`,`Time-scaled dots + red gap markers`);
+  draw();
+ }
+ async function stop(){
+  running=false;$("bstart").disabled=false;$("bstop").disabled=true;
+  if(simTimer){clearInterval(simTimer);simTimer=null;}
+  if(reader){try{await reader.cancel();}catch{}reader=null;}
+  if(port){try{await port.close();}catch{}port=null;}
+ }
+ $("bstart").onclick=async()=>{
+  await stop();records=[];seq=0;tUs=0;running=true;$("bstart").disabled=true;$("bstop").disabled=false;
+  const src=$("bsource").value;
+  if(src==="serial"){
+   if(!("serial" in navigator)){$("bstatus").textContent="WebSerial not supported in this browser (use Chrome/Edge).";await stop();return;}
+   try{
+    port=await navigator.serial.requestPort();
+    await port.open({baudRate:+$("baud").value});
+    const dec=new TextDecoderStream();port.readable.pipeTo(dec.writable);reader=dec.readable.getReader();
+    let buf="";
+    while(running&&g===generation){
+     const {value,done}=await reader.read();if(done)break;buf+=value;
+     const lines=buf.split(/\r?\n/);buf=lines.pop();
+     for(const ln of lines){const m=ln.trim().split(",");if(m.length>=3&&!isNaN(+m[0]))pushRecord(+m[0],+m[1],+m[2]);}
+    }
+   }catch(e){$("bstatus").textContent="Serial closed or cancelled: "+e.message;await stop();}
+  }else{
+   simTimer=setInterval(()=>{
+    if(!running||g!==generation){stop();return;}
+    const jitter=src==="sim_jitter"?Math.round((Math.random()-0.4)*28000):0;
+    const drop=src==="sim_jitter"&&Math.random()<0.14?1:0;
+    seq+=1+drop;tUs+=62500*(1+drop)+jitter;
+    const code=Math.round(127*Math.sin(2*Math.PI*2*(tUs/1e6)));
+    pushRecord(seq,tUs,code);
+   },65);
+  }
+ };
+ $("bstop").onclick=stop;
+ setTriad("Select Sim or WebSerial","Empty capture buffer","Waiting for stream...");
+ $("bstatus").textContent="Ready. Click Start Stream to inspect real/simulated timestamp jitter and dropped frames.";
+}
+for(const b of document.querySelectorAll("[data-tab]"))b.onclick=()=>openLesson(b.dataset.tab);
+openLesson("linc");
+</script></body></html>
